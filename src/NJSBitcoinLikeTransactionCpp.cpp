@@ -399,6 +399,58 @@ NAN_METHOD(NJSBitcoinLikeTransaction::getDustAmount) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSBitcoinLikeTransaction::getCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSBitcoinLikeTransaction::getCorrelationId needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::BitcoinLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSBitcoinLikeTransaction::getCorrelationId : implementation of BitcoinLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getCorrelationId();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSBitcoinLikeTransaction::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSBitcoinLikeTransaction::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::BitcoinLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSBitcoinLikeTransaction::setCorrelationId : implementation of BitcoinLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 NAN_METHOD(NJSBitcoinLikeTransaction::setSignatures) {
 
     //Check if method called with right number of arguments
@@ -603,6 +655,8 @@ void NJSBitcoinLikeTransaction::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"getWitness", getWitness);
     Nan::SetPrototypeMethod(func_template,"getEstimatedSize", getEstimatedSize);
     Nan::SetPrototypeMethod(func_template,"getDustAmount", getDustAmount);
+    Nan::SetPrototypeMethod(func_template,"getCorrelationId", getCorrelationId);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"setSignatures", setSignatures);
     Nan::SetPrototypeMethod(func_template,"setDERSignatures", setDERSignatures);
     Nan::SetPrototypeMethod(func_template,"isNull", isNull);

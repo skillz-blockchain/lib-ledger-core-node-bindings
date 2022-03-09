@@ -479,6 +479,58 @@ NAN_METHOD(NJSRippleLikeTransaction::getStatus) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSRippleLikeTransaction::getCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSRippleLikeTransaction::getCorrelationId needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::RippleLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSRippleLikeTransaction::getCorrelationId : implementation of RippleLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getCorrelationId();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSRippleLikeTransaction::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSRippleLikeTransaction::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::RippleLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSRippleLikeTransaction::setCorrelationId : implementation of RippleLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 
 NAN_METHOD(NJSRippleLikeTransaction::New) {
     //Only new allowed
@@ -541,6 +593,8 @@ void NJSRippleLikeTransaction::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"addMemo", addMemo);
     Nan::SetPrototypeMethod(func_template,"getDestinationTag", getDestinationTag);
     Nan::SetPrototypeMethod(func_template,"getStatus", getStatus);
+    Nan::SetPrototypeMethod(func_template,"getCorrelationId", getCorrelationId);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"isNull", isNull);
     //Set object prototype
     RippleLikeTransaction_prototype.Reset(objectTemplate);

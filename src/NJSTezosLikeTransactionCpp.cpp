@@ -59,6 +59,56 @@ NAN_METHOD(NJSTezosLikeTransaction::getHash) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSTezosLikeTransaction::getOperationIndexInTransaction) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getOperationIndexInTransaction needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getOperationIndexInTransaction : implementation of TezosLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getOperationIndexInTransaction();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<Number>(result);
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSTezosLikeTransaction::getOperationTypeInTransaction) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getOperationTypeInTransaction needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getOperationTypeInTransaction : implementation of TezosLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getOperationTypeInTransaction();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<Integer>((int)result);
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
 NAN_METHOD(NJSTezosLikeTransaction::getFees) {
 
     //Check if method called with right number of arguments
@@ -464,6 +514,58 @@ NAN_METHOD(NJSTezosLikeTransaction::getStatus) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSTezosLikeTransaction::getCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getCorrelationId needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::getCorrelationId : implementation of TezosLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getCorrelationId();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSTezosLikeTransaction::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSTezosLikeTransaction::setCorrelationId : implementation of TezosLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 
 NAN_METHOD(NJSTezosLikeTransaction::New) {
     //Only new allowed
@@ -512,6 +614,8 @@ void NJSTezosLikeTransaction::Initialize(Local<Object> target) {
     //SetPrototypeMethod all methods
     Nan::SetPrototypeMethod(func_template,"getType", getType);
     Nan::SetPrototypeMethod(func_template,"getHash", getHash);
+    Nan::SetPrototypeMethod(func_template,"getOperationIndexInTransaction", getOperationIndexInTransaction);
+    Nan::SetPrototypeMethod(func_template,"getOperationTypeInTransaction", getOperationTypeInTransaction);
     Nan::SetPrototypeMethod(func_template,"getFees", getFees);
     Nan::SetPrototypeMethod(func_template,"getTransactionFees", getTransactionFees);
     Nan::SetPrototypeMethod(func_template,"getRevealFees", getRevealFees);
@@ -527,6 +631,8 @@ void NJSTezosLikeTransaction::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"getStorageLimit", getStorageLimit);
     Nan::SetPrototypeMethod(func_template,"getBlockHash", getBlockHash);
     Nan::SetPrototypeMethod(func_template,"getStatus", getStatus);
+    Nan::SetPrototypeMethod(func_template,"getCorrelationId", getCorrelationId);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"isNull", isNull);
     //Set object prototype
     TezosLikeTransaction_prototype.Reset(objectTemplate);

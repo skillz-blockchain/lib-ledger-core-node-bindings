@@ -19,7 +19,6 @@ std::string to_string(const TezosOperationTag& tezosOperationTag) {
         case TezosOperationTag::OPERATION_TAG_TRANSACTION: return "OPERATION_TAG_TRANSACTION";
         case TezosOperationTag::OPERATION_TAG_ORIGINATION: return "OPERATION_TAG_ORIGINATION";
         case TezosOperationTag::OPERATION_TAG_DELEGATION: return "OPERATION_TAG_DELEGATION";
-        default: return "UNKNOWN";
     };
 };
 template <>

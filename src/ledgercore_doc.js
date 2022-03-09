@@ -8,6 +8,10 @@ declare class NJSTezosLikeTransaction
     declare function getType(): TezosOperationTag;
     /** Get the hash of the transaction. */
     declare function getHash(): string;
+    /** Get the operation index in the transaction */
+    declare function getOperationIndexInTransaction(): number;
+    /** Get the operation type in the transaction */
+    declare function getOperationTypeInTransaction(): TezosOperationTag;
     /**
      * Get Fees (in drop) 
      * It returns the sum of transaction fees and reveal fees (if it exists)
@@ -41,6 +45,14 @@ declare class NJSTezosLikeTransaction
     declare function getBlockHash(): ?string;
     /** Get status of transaction: equals to 1 if succeeded, 0 otherwise */
     declare function getStatus(): number;
+    /** Get the correlation id */
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
 }
 /**Class representing a Tezos Operation */
 declare class NJSTezosLikeOperation
@@ -118,6 +130,11 @@ declare class NJSTezosLikeTransactionBuilder
      * @return A reference on the same builder in order to chain calls.
      */
     declare function setStorageLimit(storageLimit: NJSBigInt): NJSTezosLikeTransactionBuilder;
+    /**
+     * Set the correlation id (used to track a transaction)
+     * @return A reference on the same builder in order to chain calls.
+     */
+    declare function setCorrelationId(correlationId: string): NJSTezosLikeTransactionBuilder;
     /** Build a transaction from the given builder parameters. */
     declare function build(callback: NJSTezosLikeTransactionCallback);
     /**
@@ -173,6 +190,8 @@ declare class NJSTezosLikeAccount
      * @param tokenAddress Address of the contract
      */
     declare function getTokenBalance(tokenAddress: string, callback: NJSBigIntCallback);
+    /** Get the deterministic operation Uid */
+    declare function computeOperationUid(transaction: NJSTezosLikeTransaction): string;
 }
 /** Callback triggered by main completed task, returning optional result of template type T. */
 declare class NJSStringCallback
@@ -308,6 +327,14 @@ declare class NJSRippleLikeTransaction
     declare function getDestinationTag(): ?number;
     /** Status of the transaction. */
     declare function getStatus(): number;
+    /** Get the correlation id */
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
 }
 /**Class representing a Ripple Operation */
 declare class NJSRippleLikeOperation
@@ -357,6 +384,11 @@ declare class NJSRippleLikeTransactionBuilder
      * @return A reference on the same builder in order to chain calls.
      */
     declare function setFees(fees: NJSAmount): NJSRippleLikeTransactionBuilder;
+    /**
+     * Set correlation id
+     * @return A reference on the same builder in order to chain calls.
+     */
+    declare function setCorrelationId(correlationId: string): NJSRippleLikeTransactionBuilder;
     /**
      * Add a memo.
      * @return A reference on the same builder in order to chain calls.
@@ -532,12 +564,25 @@ declare class NJSStellarLikeTransaction
     declare function getFee(): NJSAmount;
     /** Returns the transaction memo */
     declare function getMemo(): NJSStellarLikeMemo;
+    /** Get the correlation id */
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
 }
 declare class NJSStellarLikeTransactionBuilder
 {
     declare function addNativePayment(address: string, amount: NJSAmount): NJSStellarLikeTransactionBuilder;
     declare function addCreateAccount(address: string, amount: NJSAmount): NJSStellarLikeTransactionBuilder;
     declare function setBaseFee(baseFee: NJSAmount): NJSStellarLikeTransactionBuilder;
+    /**
+     * Set the correlation id (used to track a transaction)
+     * @return A reference on the same builder in order to chain calls.
+     */
+    declare function setCorrelationId(correlationId: string): NJSStellarLikeTransactionBuilder;
     declare function setTextMemo(text: string): NJSStellarLikeTransactionBuilder;
     declare function setNumberMemo(number: NJSBigInt): NJSStellarLikeTransactionBuilder;
     declare function setHashMemo(hash: String): NJSStellarLikeTransactionBuilder;
@@ -579,6 +624,8 @@ declare class NJSStellarLikeAccount
     declare function buildTransaction(): NJSStellarLikeTransactionBuilder;
     /** Broadcast the given raw transaction to the network. */
     declare function broadcastRawTransaction(tx: String, callback: NJSStringCallback);
+    /** Broadcast the given raw transaction to the network. */
+    declare function broadcastTransaction(tx: NJSStellarLikeTransaction, callback: NJSStringCallback);
     /** Get base reserve of the network */
     declare function getBaseReserve(callback: NJSAmountCallback);
     /** Get sequence number to be used in the next transaction */
@@ -629,6 +676,13 @@ declare class NJSAlgorandTransaction
     declare function getSenderRewards(): string;
     declare function getReceiverRewards(): string;
     declare function getCloseRewards(): string;
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
     declare function setSender(sender: string);
     declare function setFee(fee: string);
     declare function setNote(note: string);
@@ -2435,6 +2489,14 @@ declare class NJSCosmosLikeTransaction
     declare function getMessages(): Array<NJSCosmosLikeMessage>;
     /** Get Signing public Key */
     declare function getSigningPubKey(): String;
+    /** Get Signing public Key */
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
     /** Serialize the transaction to be signed */
     declare function serializeForSignature(): string;
     /** Set signature of transaction, when a signature is set it can be broadcasted */
@@ -2521,6 +2583,11 @@ declare class NJSCosmosLikeTransactionBuilder
      * @param fee The fee to set
      */
     declare function setFee(fee: NJSAmount): NJSCosmosLikeTransactionBuilder;
+    /**
+     * Set correlation id
+     * @param id to track transaction through ledger track
+     */
+    declare function setCorrelationId(correlationId: string): NJSCosmosLikeTransactionBuilder;
     /** Build a transaction from the given builder parameters. */
     declare function build(callback: NJSCosmosLikeTransactionCallback);
     /**
@@ -2843,6 +2910,14 @@ declare class NJSEthereumLikeTransaction
     declare function getData(): ?String;
     /** Get status of transaction: equals to 1 if succeeded, 0 otherwise */
     declare function getStatus(): number;
+    /** Get correlation id */
+    declare function getCorrelationId(): string;
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
     /** Serialize the transaction to its raw format. */
     declare function serialize(): String;
     /** Set signature of transaction, when a signature is set serialize method gives back serialized Tx. */
@@ -2937,6 +3012,8 @@ declare class NJSEthereumLikeTransactionBuilder
     declare function setGasLimit(gasLimit: NJSAmount): NJSEthereumLikeTransactionBuilder;
     /** Set input data the originator wants to embed in transaction. */
     declare function setInputData(data: String): NJSEthereumLikeTransactionBuilder;
+    /** Set the correlation id which allows to track transaction */
+    declare function setCorrelationId(correlationId: string): NJSEthereumLikeTransactionBuilder;
     /** Build a transaction from the given builder parameters. */
     declare function build(callback: NJSEthereumLikeTransactionCallback);
     /**
@@ -3006,12 +3083,6 @@ declare class NJSEthereumLikeAccount
      * Note: same note as above
      */
     declare function getERC20Balances(erc20Addresses: Array<string>, callback: NJSBigIntListCallback);
-    /**
-     * Add ERC20 accounts
-     * The passed addresses are ERC20 accounts
-     * Note: same note as above
-     */
-    declare function addERC20Accounts(erc20Addresses: Array<string>);
 }
 /** Callback triggered by main completed task, returning optional result as list of template type T. */
 declare class NJSBigIntListCallback
@@ -3649,14 +3720,22 @@ declare class NJSBitcoinLikeTransaction
     declare function getEstimatedSize(): EstimatedSize;
     /** Get the dust amount based on the maximum estimated size of the transaction */
     declare function getDustAmount(): number;
+    /** Get the id used to track a transaction */
+    declare function getCorrelationId(): string;
     /**
-     * Sign all inputs for given transaction. 
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    declare function setCorrelationId(correlationId: string): string;
+    /**
+     * Sign all inputs for given transaction.
      * Build DER encoded signature from RSV data.
      * @return SIGNING_SUCCEED if succeed case else refers to BitcoinLikeSignatureState enumeration
      */
     declare function setSignatures(signatures: Array<BitcoinLikeSignature>, override: boolean): BitcoinLikeSignatureState;
     /**
-     * Sign all inputs for given transaction. 
+     * Sign all inputs for given transaction.
      * @return SIGNING_SUCCEED if succeed case else refers to BitcoinLikeSignatureState enumeration
      */
     declare function setDERSignatures(signatures: Array<String>, override: boolean): BitcoinLikeSignatureState;
@@ -3672,14 +3751,6 @@ declare class NJSBitcoinLikeOperation
 }
 declare class NJSBitcoinLikeTransactionBuilder
 {
-    /**
-     * Add the given input to the final transaction.
-     * @param transactionhash The hash of the transaction in where the UTXO can be located.
-     * @params index Index of the UTXO in the previous transaction
-     * @params sequence Sequence number to add at the end of the input serialization. This can be used for RBF transaction
-     * @return A reference on the same builder in order to chain calls.
-     */
-    declare function addInput(transactionHash: string, index: number, sequence: number): NJSBitcoinLikeTransactionBuilder;
     /**
      * Add the given output to the final transaction.
      * @return A reference on the same builder in order to chain calls.
@@ -3749,6 +3820,12 @@ declare class NJSBitcoinLikeTransactionBuilder
     declare function clone(): NJSBitcoinLikeTransactionBuilder;
     /** Reset the current instance to its initial state. */
     declare function reset();
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return A reference on the same builder in order to chain calls.
+     */
+    declare function setCorrelationId(correlationId: string): NJSBitcoinLikeTransactionBuilder;
     /**
      * Parsing unsigned transaction.
      * parsing a tx might change depending on block height we are on (if an update is effective starting from a given hight)
@@ -4168,7 +4245,7 @@ declare class NJSHttpRequest
      */
     declare function getUrl(): string;
     /**
-     * Method called when reauest is completed.
+     * Method called when request is completed.
      * @param response, Optional HttpUrlConnection object, response of request if succeed
      * @param error, optional Error structure, error returned in case of request failure
      */

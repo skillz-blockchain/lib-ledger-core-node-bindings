@@ -12,7 +12,6 @@ std::string to_string(const TrustLevel& trustLevel) {
         case TrustLevel::PENDING: return "PENDING";
         case TrustLevel::UNTRUSTED: return "UNTRUSTED";
         case TrustLevel::DROPPED: return "DROPPED";
-        default: return "UNKNOWN";
     };
 };
 template <>

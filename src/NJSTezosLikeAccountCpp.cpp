@@ -296,6 +296,38 @@ NAN_METHOD(NJSTezosLikeAccount::getTokenBalance) {
     cpp_impl->getTokenBalance(arg_0,arg_1);
     info.GetReturnValue().Set(arg_1_resolver->GetPromise());
 }
+NAN_METHOD(NJSTezosLikeAccount::computeOperationUid) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSTezosLikeAccount::computeOperationUid needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Local<Object> njs_arg_0 = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    auto arg_0 = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeTransaction>::Unwrap(njs_arg_0);
+    if(!arg_0)
+    {
+        return Nan::ThrowError("NodeJs Object to NJSTezosLikeTransaction failed");
+    }
+
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::TezosLikeAccount>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSTezosLikeAccount::computeOperationUid : implementation of TezosLikeAccount is not valid");
+    }
+
+    auto result = cpp_impl->computeOperationUid(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 
 NAN_METHOD(NJSTezosLikeAccount::New) {
     //Only new allowed
@@ -352,6 +384,7 @@ void NJSTezosLikeAccount::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"getOriginatedAccounts", getOriginatedAccounts);
     Nan::SetPrototypeMethod(func_template,"getCurrentDelegate", getCurrentDelegate);
     Nan::SetPrototypeMethod(func_template,"getTokenBalance", getTokenBalance);
+    Nan::SetPrototypeMethod(func_template,"computeOperationUid", computeOperationUid);
     Nan::SetPrototypeMethod(func_template,"isNull", isNull);
     //Set object prototype
     TezosLikeAccount_prototype.Reset(objectTemplate);

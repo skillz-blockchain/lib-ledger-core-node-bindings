@@ -97,6 +97,12 @@ private:
      */
     static NAN_METHOD(setStorageLimit);
 
+    /**
+     * Set the correlation id (used to track a transaction)
+     * @return A reference on the same builder in order to chain calls.
+     */
+    static NAN_METHOD(setCorrelationId);
+
     /** Build a transaction from the given builder parameters. */
     static NAN_METHOD(build);
 

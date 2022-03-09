@@ -59,7 +59,7 @@ private:
     static NAN_METHOD(getUrl);
 
     /**
-     * Method called when reauest is completed.
+     * Method called when request is completed.
      * @param response, Optional HttpUrlConnection object, response of request if succeed
      * @param error, optional Error structure, error returned in case of request failure
      */

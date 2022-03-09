@@ -83,6 +83,12 @@ private:
      */
     static NAN_METHOD(setFee);
 
+    /**
+     * Set correlation id
+     * @param id to track transaction through ledger track
+     */
+    static NAN_METHOD(setCorrelationId);
+
     /** Build a transaction from the given builder parameters. */
     static NAN_METHOD(build);
 

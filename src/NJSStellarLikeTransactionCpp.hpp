@@ -11,6 +11,7 @@
 #include "NJSStellarLikeMemoCpp.hpp"
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include <nan.h>
@@ -51,6 +52,16 @@ private:
 
     /** Returns the transaction memo */
     static NAN_METHOD(getMemo);
+
+    /** Get the correlation id */
+    static NAN_METHOD(getCorrelationId);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
 
     static NAN_METHOD(New);
 

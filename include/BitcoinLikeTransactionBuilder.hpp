@@ -31,15 +31,6 @@ public:
     virtual ~BitcoinLikeTransactionBuilder() {}
 
     /**
-     * Add the given input to the final transaction.
-     * @param transactionhash The hash of the transaction in where the UTXO can be located.
-     * @params index Index of the UTXO in the previous transaction
-     * @params sequence Sequence number to add at the end of the input serialization. This can be used for RBF transaction
-     * @return A reference on the same builder in order to chain calls.
-     */
-    virtual std::shared_ptr<BitcoinLikeTransactionBuilder> addInput(const std::string & transactionHash, int32_t index, int32_t sequence) = 0;
-
-    /**
      * Add the given output to the final transaction.
      * @return A reference on the same builder in order to chain calls.
      */
@@ -120,6 +111,13 @@ public:
 
     /** Reset the current instance to its initial state. */
     virtual void reset() = 0;
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return A reference on the same builder in order to chain calls.
+     */
+    virtual std::shared_ptr<BitcoinLikeTransactionBuilder> setCorrelationId(const std::string & correlationId) = 0;
 
     /**
      * Parsing unsigned transaction.

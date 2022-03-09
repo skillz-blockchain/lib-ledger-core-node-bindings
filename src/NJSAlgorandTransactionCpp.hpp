@@ -53,6 +53,15 @@ private:
 
     static NAN_METHOD(getCloseRewards);
 
+    static NAN_METHOD(getCorrelationId);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
+
     static NAN_METHOD(setSender);
 
     static NAN_METHOD(setFee);

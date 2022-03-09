@@ -180,6 +180,34 @@ NAN_METHOD(NJSEthereumLikeTransactionBuilder::setInputData) {
     //Return result
     info.GetReturnValue().Set(arg_1);
 }
+NAN_METHOD(NJSEthereumLikeTransactionBuilder::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransactionBuilder::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::EthereumLikeTransactionBuilder>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransactionBuilder::setCorrelationId : implementation of EthereumLikeTransactionBuilder is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = NJSEthereumLikeTransactionBuilder::wrap(result);
+
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 NAN_METHOD(NJSEthereumLikeTransactionBuilder::build) {
 
     //Check if method called with right number of arguments
@@ -470,7 +498,7 @@ NAN_METHOD(NJSEthereumLikeTransactionBuilder::parseRawUnsignedTransaction) {
         }
 
 
-        auto field_opt_arg_0_7_5 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("Ed25519PubKeyPrefix").ToLocalChecked()).ToLocalChecked();
+        auto field_opt_arg_0_7_5 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AddressPrefix").ToLocalChecked()).ToLocalChecked();
         if(!field_opt_arg_0_7_5->IsString())
         {
             Nan::ThrowError("field_opt_arg_0_7_5 should be a hexadecimal string.");
@@ -488,42 +516,24 @@ NAN_METHOD(NJSEthereumLikeTransactionBuilder::parseRawUnsignedTransaction) {
         }
 
 
-        auto field_opt_arg_0_7_6 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AddressPrefix").ToLocalChecked()).ToLocalChecked();
-        if(!field_opt_arg_0_7_6->IsString())
-        {
-            Nan::ThrowError("field_opt_arg_0_7_6 should be a hexadecimal string.");
-        }
-        std::vector<uint8_t> opt_arg_0_7_6;
-        Nan::Utf8String str_opt_arg_0_7_6(field_opt_arg_0_7_6);
-        std::string string_opt_arg_0_7_6(*str_opt_arg_0_7_6, str_opt_arg_0_7_6.length());
-        if (string_opt_arg_0_7_6.rfind("0x", 0) == 0)
-        {
-            opt_arg_0_7_6 = djinni::js::hex::toByteArray(string_opt_arg_0_7_6.substr(2));
-        }
-        else
-        {
-            opt_arg_0_7_6 = std::vector<uint8_t>(string_opt_arg_0_7_6.cbegin(), string_opt_arg_0_7_6.cend());
-        }
+        auto field_opt_arg_0_7_6 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("ChainId").ToLocalChecked()).ToLocalChecked();
+        Nan::Utf8String string_opt_arg_0_7_6(field_opt_arg_0_7_6->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+        auto opt_arg_0_7_6 = std::string(*string_opt_arg_0_7_6);
 
-
-        auto field_opt_arg_0_7_7 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("ChainId").ToLocalChecked()).ToLocalChecked();
-        Nan::Utf8String string_opt_arg_0_7_7(field_opt_arg_0_7_7->ToString(Nan::GetCurrentContext()).ToLocalChecked());
-        auto opt_arg_0_7_7 = std::string(*string_opt_arg_0_7_7);
-
-        auto field_opt_arg_0_7_8 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AdditionalCIPs").ToLocalChecked()).ToLocalChecked();
-        vector<std::string> opt_arg_0_7_8;
-        Local<Array> opt_arg_0_7_8_container = Local<Array>::Cast(field_opt_arg_0_7_8);
-        for(uint32_t opt_arg_0_7_8_id = 0; opt_arg_0_7_8_id < opt_arg_0_7_8_container->Length(); opt_arg_0_7_8_id++)
+        auto field_opt_arg_0_7_7 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AdditionalCIPs").ToLocalChecked()).ToLocalChecked();
+        vector<std::string> opt_arg_0_7_7;
+        Local<Array> opt_arg_0_7_7_container = Local<Array>::Cast(field_opt_arg_0_7_7);
+        for(uint32_t opt_arg_0_7_7_id = 0; opt_arg_0_7_7_id < opt_arg_0_7_7_container->Length(); opt_arg_0_7_7_id++)
         {
-            if(opt_arg_0_7_8_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_8_id).ToLocalChecked()->IsString())
+            if(opt_arg_0_7_7_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_7_id).ToLocalChecked()->IsString())
             {
-                Nan::Utf8String string_opt_arg_0_7_8_elem(opt_arg_0_7_8_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_8_id).ToLocalChecked()->ToString(Nan::GetCurrentContext()).ToLocalChecked());
-                auto opt_arg_0_7_8_elem = std::string(*string_opt_arg_0_7_8_elem);
-                opt_arg_0_7_8.emplace_back(opt_arg_0_7_8_elem);
+                Nan::Utf8String string_opt_arg_0_7_7_elem(opt_arg_0_7_7_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_7_id).ToLocalChecked()->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+                auto opt_arg_0_7_7_elem = std::string(*string_opt_arg_0_7_7_elem);
+                opt_arg_0_7_7.emplace_back(opt_arg_0_7_7_elem);
             }
         }
 
-        CosmosLikeNetworkParameters opt_arg_0_7(opt_arg_0_7_1, opt_arg_0_7_2, opt_arg_0_7_3, opt_arg_0_7_4, opt_arg_0_7_5, opt_arg_0_7_6, opt_arg_0_7_7, opt_arg_0_7_8);
+        CosmosLikeNetworkParameters opt_arg_0_7(opt_arg_0_7_1, opt_arg_0_7_2, opt_arg_0_7_3, opt_arg_0_7_4, opt_arg_0_7_5, opt_arg_0_7_6, opt_arg_0_7_7);
 
         arg_0_7.emplace(opt_arg_0_7);
     }
@@ -1068,7 +1078,7 @@ NAN_METHOD(NJSEthereumLikeTransactionBuilder::parseRawSignedTransaction) {
         }
 
 
-        auto field_opt_arg_0_7_5 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("Ed25519PubKeyPrefix").ToLocalChecked()).ToLocalChecked();
+        auto field_opt_arg_0_7_5 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AddressPrefix").ToLocalChecked()).ToLocalChecked();
         if(!field_opt_arg_0_7_5->IsString())
         {
             Nan::ThrowError("field_opt_arg_0_7_5 should be a hexadecimal string.");
@@ -1086,42 +1096,24 @@ NAN_METHOD(NJSEthereumLikeTransactionBuilder::parseRawSignedTransaction) {
         }
 
 
-        auto field_opt_arg_0_7_6 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AddressPrefix").ToLocalChecked()).ToLocalChecked();
-        if(!field_opt_arg_0_7_6->IsString())
-        {
-            Nan::ThrowError("field_opt_arg_0_7_6 should be a hexadecimal string.");
-        }
-        std::vector<uint8_t> opt_arg_0_7_6;
-        Nan::Utf8String str_opt_arg_0_7_6(field_opt_arg_0_7_6);
-        std::string string_opt_arg_0_7_6(*str_opt_arg_0_7_6, str_opt_arg_0_7_6.length());
-        if (string_opt_arg_0_7_6.rfind("0x", 0) == 0)
-        {
-            opt_arg_0_7_6 = djinni::js::hex::toByteArray(string_opt_arg_0_7_6.substr(2));
-        }
-        else
-        {
-            opt_arg_0_7_6 = std::vector<uint8_t>(string_opt_arg_0_7_6.cbegin(), string_opt_arg_0_7_6.cend());
-        }
+        auto field_opt_arg_0_7_6 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("ChainId").ToLocalChecked()).ToLocalChecked();
+        Nan::Utf8String string_opt_arg_0_7_6(field_opt_arg_0_7_6->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+        auto opt_arg_0_7_6 = std::string(*string_opt_arg_0_7_6);
 
-
-        auto field_opt_arg_0_7_7 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("ChainId").ToLocalChecked()).ToLocalChecked();
-        Nan::Utf8String string_opt_arg_0_7_7(field_opt_arg_0_7_7->ToString(Nan::GetCurrentContext()).ToLocalChecked());
-        auto opt_arg_0_7_7 = std::string(*string_opt_arg_0_7_7);
-
-        auto field_opt_arg_0_7_8 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AdditionalCIPs").ToLocalChecked()).ToLocalChecked();
-        vector<std::string> opt_arg_0_7_8;
-        Local<Array> opt_arg_0_7_8_container = Local<Array>::Cast(field_opt_arg_0_7_8);
-        for(uint32_t opt_arg_0_7_8_id = 0; opt_arg_0_7_8_id < opt_arg_0_7_8_container->Length(); opt_arg_0_7_8_id++)
+        auto field_opt_arg_0_7_7 = Nan::Get(field_arg_0_7->ToObject(Nan::GetCurrentContext()).ToLocalChecked(), Nan::New<String>("AdditionalCIPs").ToLocalChecked()).ToLocalChecked();
+        vector<std::string> opt_arg_0_7_7;
+        Local<Array> opt_arg_0_7_7_container = Local<Array>::Cast(field_opt_arg_0_7_7);
+        for(uint32_t opt_arg_0_7_7_id = 0; opt_arg_0_7_7_id < opt_arg_0_7_7_container->Length(); opt_arg_0_7_7_id++)
         {
-            if(opt_arg_0_7_8_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_8_id).ToLocalChecked()->IsString())
+            if(opt_arg_0_7_7_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_7_id).ToLocalChecked()->IsString())
             {
-                Nan::Utf8String string_opt_arg_0_7_8_elem(opt_arg_0_7_8_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_8_id).ToLocalChecked()->ToString(Nan::GetCurrentContext()).ToLocalChecked());
-                auto opt_arg_0_7_8_elem = std::string(*string_opt_arg_0_7_8_elem);
-                opt_arg_0_7_8.emplace_back(opt_arg_0_7_8_elem);
+                Nan::Utf8String string_opt_arg_0_7_7_elem(opt_arg_0_7_7_container->Get(Nan::GetCurrentContext(), opt_arg_0_7_7_id).ToLocalChecked()->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+                auto opt_arg_0_7_7_elem = std::string(*string_opt_arg_0_7_7_elem);
+                opt_arg_0_7_7.emplace_back(opt_arg_0_7_7_elem);
             }
         }
 
-        CosmosLikeNetworkParameters opt_arg_0_7(opt_arg_0_7_1, opt_arg_0_7_2, opt_arg_0_7_3, opt_arg_0_7_4, opt_arg_0_7_5, opt_arg_0_7_6, opt_arg_0_7_7, opt_arg_0_7_8);
+        CosmosLikeNetworkParameters opt_arg_0_7(opt_arg_0_7_1, opt_arg_0_7_2, opt_arg_0_7_3, opt_arg_0_7_4, opt_arg_0_7_5, opt_arg_0_7_6, opt_arg_0_7_7);
 
         arg_0_7.emplace(opt_arg_0_7);
     }
@@ -1496,6 +1488,7 @@ void NJSEthereumLikeTransactionBuilder::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"setGasPrice", setGasPrice);
     Nan::SetPrototypeMethod(func_template,"setGasLimit", setGasLimit);
     Nan::SetPrototypeMethod(func_template,"setInputData", setInputData);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"build", build);
     Nan::SetPrototypeMethod(func_template,"clone", clone);
     Nan::SetPrototypeMethod(func_template,"reset", reset);

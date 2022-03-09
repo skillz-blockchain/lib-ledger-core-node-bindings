@@ -10,7 +10,6 @@
   },
   "gypfile": true,
   "scripts": {
-    "preinstall": "node preinstall.js",
     "gypinstall": "node-gyp rebuild",
     "gypclean": "node-gyp clean",
     "gypconfig": "node-gyp configure",
@@ -40,6 +39,8 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@ledgerhq/cryptoassets": "file:.yalc/@ledgerhq/cryptoassets",
+    "@ledgerhq/hw-app-eth": "file:.yalc/@ledgerhq/hw-app-eth",
     "bindings": "1.5.0",
     "nan": "^2.14.2",
     "node-gyp": "^8.0.0",

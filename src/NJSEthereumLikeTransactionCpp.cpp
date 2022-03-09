@@ -273,6 +273,58 @@ NAN_METHOD(NJSEthereumLikeTransaction::getStatus) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSEthereumLikeTransaction::getCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransaction::getCorrelationId needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::EthereumLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransaction::getCorrelationId : implementation of EthereumLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getCorrelationId();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSEthereumLikeTransaction::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransaction::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::EthereumLikeTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSEthereumLikeTransaction::setCorrelationId : implementation of EthereumLikeTransaction is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 NAN_METHOD(NJSEthereumLikeTransaction::serialize) {
 
     //Check if method called with right number of arguments
@@ -542,6 +594,8 @@ void NJSEthereumLikeTransaction::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"getValue", getValue);
     Nan::SetPrototypeMethod(func_template,"getData", getData);
     Nan::SetPrototypeMethod(func_template,"getStatus", getStatus);
+    Nan::SetPrototypeMethod(func_template,"getCorrelationId", getCorrelationId);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"serialize", serialize);
     Nan::SetPrototypeMethod(func_template,"setSignature", setSignature);
     Nan::SetPrototypeMethod(func_template,"setDERSignature", setDERSignature);

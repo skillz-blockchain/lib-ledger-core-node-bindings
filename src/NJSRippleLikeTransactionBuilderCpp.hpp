@@ -64,6 +64,12 @@ private:
     static NAN_METHOD(setFees);
 
     /**
+     * Set correlation id
+     * @return A reference on the same builder in order to chain calls.
+     */
+    static NAN_METHOD(setCorrelationId);
+
+    /**
      * Add a memo.
      * @return A reference on the same builder in order to chain calls.
      */

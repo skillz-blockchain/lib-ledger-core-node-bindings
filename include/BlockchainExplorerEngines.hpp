@@ -20,8 +20,6 @@ class LIBCORE_EXPORT BlockchainExplorerEngines {
 public:
     virtual ~BlockchainExplorerEngines() {}
 
-    static std::string const STARGATE_NODE;
-
     static std::string const COSMOS_NODE;
 
     static std::string const LEDGER_API;

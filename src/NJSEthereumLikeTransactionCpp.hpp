@@ -64,6 +64,16 @@ private:
     /** Get status of transaction: equals to 1 if succeeded, 0 otherwise */
     static NAN_METHOD(getStatus);
 
+    /** Get correlation id */
+    static NAN_METHOD(getCorrelationId);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
+
     /** Serialize the transaction to its raw format. */
     static NAN_METHOD(serialize);
 

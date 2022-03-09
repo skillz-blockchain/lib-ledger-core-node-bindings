@@ -16,7 +16,6 @@ std::string to_string(const OperationOrderKey& operationOrderKey) {
         case OperationOrderKey::CURRENCY_NAME: return "CURRENCY_NAME";
         case OperationOrderKey::FEES: return "FEES";
         case OperationOrderKey::BLOCK_HEIGHT: return "BLOCK_HEIGHT";
-        default: return "UNKNOWN";
     };
 };
 template <>

@@ -41,6 +41,12 @@ private:
     /** Get the hash of the transaction. */
     static NAN_METHOD(getHash);
 
+    /** Get the operation index in the transaction */
+    static NAN_METHOD(getOperationIndexInTransaction);
+
+    /** Get the operation type in the transaction */
+    static NAN_METHOD(getOperationTypeInTransaction);
+
     /**
      * Get Fees (in drop) 
      * It returns the sum of transaction fees and reveal fees (if it exists)
@@ -88,6 +94,16 @@ private:
 
     /** Get status of transaction: equals to 1 if succeeded, 0 otherwise */
     static NAN_METHOD(getStatus);
+
+    /** Get the correlation id */
+    static NAN_METHOD(getCorrelationId);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
 
     static NAN_METHOD(New);
 

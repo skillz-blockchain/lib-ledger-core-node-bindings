@@ -234,6 +234,58 @@ NAN_METHOD(NJSAlgorandTransaction::getCloseRewards) {
     //Return result
     info.GetReturnValue().Set(arg_0);
 }
+NAN_METHOD(NJSAlgorandTransaction::getCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 0)
+    {
+        return Nan::ThrowError("NJSAlgorandTransaction::getCorrelationId needs 0 arguments");
+    }
+
+    //Check if parameters have correct types
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::AlgorandTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSAlgorandTransaction::getCorrelationId : implementation of AlgorandTransaction is not valid");
+    }
+
+    auto result = cpp_impl->getCorrelationId();
+
+    //Wrap result in node object
+    auto arg_0 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_0);
+}
+NAN_METHOD(NJSAlgorandTransaction::setCorrelationId) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSAlgorandTransaction::setCorrelationId needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Nan::Utf8String string_arg_0(info[0]->ToString(Nan::GetCurrentContext()).ToLocalChecked());
+    auto arg_0 = std::string(*string_arg_0);
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::AlgorandTransaction>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSAlgorandTransaction::setCorrelationId : implementation of AlgorandTransaction is not valid");
+    }
+
+    auto result = cpp_impl->setCorrelationId(arg_0);
+
+    //Wrap result in node object
+    auto arg_1 = Nan::New<String>(result).ToLocalChecked();
+
+    //Return result
+    info.GetReturnValue().Set(arg_1);
+}
 NAN_METHOD(NJSAlgorandTransaction::setSender) {
 
     //Check if method called with right number of arguments
@@ -1096,6 +1148,8 @@ void NJSAlgorandTransaction::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"getSenderRewards", getSenderRewards);
     Nan::SetPrototypeMethod(func_template,"getReceiverRewards", getReceiverRewards);
     Nan::SetPrototypeMethod(func_template,"getCloseRewards", getCloseRewards);
+    Nan::SetPrototypeMethod(func_template,"getCorrelationId", getCorrelationId);
+    Nan::SetPrototypeMethod(func_template,"setCorrelationId", setCorrelationId);
     Nan::SetPrototypeMethod(func_template,"setSender", setSender);
     Nan::SetPrototypeMethod(func_template,"setFee", setFee);
     Nan::SetPrototypeMethod(func_template,"setNote", setNote);

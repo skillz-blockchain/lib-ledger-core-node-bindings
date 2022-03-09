@@ -48,6 +48,12 @@ private:
 
     static NAN_METHOD(setBaseFee);
 
+    /**
+     * Set the correlation id (used to track a transaction)
+     * @return A reference on the same builder in order to chain calls.
+     */
+    static NAN_METHOD(setCorrelationId);
+
     static NAN_METHOD(setTextMemo);
 
     static NAN_METHOD(setNumberMemo);

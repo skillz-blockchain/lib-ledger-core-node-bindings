@@ -25,7 +25,6 @@ std::string to_string(const CosmosLikeMsgType& cosmosLikeMsgType) {
         case CosmosLikeMsgType::MSGUNJAIL: return "MSGUNJAIL";
         case CosmosLikeMsgType::MSGFEES: return "MSGFEES";
         case CosmosLikeMsgType::UNSUPPORTED: return "UNSUPPORTED";
-        default: return "UNKNOWN";
     };
 };
 template <>

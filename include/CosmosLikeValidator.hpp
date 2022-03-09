@@ -41,11 +41,8 @@ struct CosmosLikeValidator final {
     std::string operatorAddress;
     /** Consensus public key (cosmosvalconspub) */
     std::string consensusPubkey;
-    /**
-     * Status (Unbonded - Unbonding - Bonded) Goes from 0 to 2 or 1 to 3 depending on API (see https://github.com/cosmos/cosmos-sdk/commit/53bf2271d5bac054a8f74723732f21055c1b72d4#diff-f54554903608b8b89649f532c8f1a78cL43)
-     * For Stargate, the string is an UPPERCASE_CONSTANT
-     */
-    std::string activeStatus;
+    /** Status (Unbonded - Unbonding - Bonded) Goes from 0 to 2 or 1 to 3 depending on API (see https://github.com/cosmos/cosmos-sdk/commit/53bf2271d5bac054a8f74723732f21055c1b72d4#diff-f54554903608b8b89649f532c8f1a78cL43) */
+    int32_t activeStatus;
 
     CosmosLikeValidator(CosmosLikeValidatorDescription validatorDetails_,
                         CosmosLikeValidatorCommission commission_,
@@ -58,7 +55,7 @@ struct CosmosLikeValidator final {
                         std::string votingPower_,
                         std::string operatorAddress_,
                         std::string consensusPubkey_,
-                        std::string activeStatus_)
+                        int32_t activeStatus_)
     : validatorDetails(std::move(validatorDetails_))
     , commission(std::move(commission_))
     , distInfo(std::move(distInfo_))

@@ -60,6 +60,16 @@ private:
     /** Get Signing public Key */
     static NAN_METHOD(getSigningPubKey);
 
+    /** Get Signing public Key */
+    static NAN_METHOD(getCorrelationId);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
+
     /** Serialize the transaction to be signed */
     static NAN_METHOD(serializeForSignature);
 

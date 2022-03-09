@@ -87,13 +87,6 @@ private:
      */
     static NAN_METHOD(getERC20Balances);
 
-    /**
-     * Add ERC20 accounts
-     * The passed addresses are ERC20 accounts
-     * Note: same note as above
-     */
-    static NAN_METHOD(addERC20Accounts);
-
     static NAN_METHOD(New);
 
     static NAN_METHOD(isNull);

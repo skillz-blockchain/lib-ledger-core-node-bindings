@@ -74,6 +74,9 @@ private:
      */
     static NAN_METHOD(getTokenBalance);
 
+    /** Get the deterministic operation Uid */
+    static NAN_METHOD(computeOperationUid);
+
     static NAN_METHOD(New);
 
     static NAN_METHOD(isNull);

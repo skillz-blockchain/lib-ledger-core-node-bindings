@@ -19,10 +19,8 @@ struct CosmosLikeNetworkParameters final {
     std::string MessagePrefix;
     /** Version of the Extended Public Key standard. */
     std::vector<uint8_t> XPUBVersion;
-    /** Prefix useful for bech32 encoding of secp256k1 raw pubKey */
+    /** Prefix useful during implicit address construction from pubKey hash */
     std::vector<uint8_t> PubKeyPrefix;
-    /** Prefix useful for bech32 encoding of ed25519 raw pubKey */
-    std::vector<uint8_t> Ed25519PubKeyPrefix;
     /** Prefix useful during originated address construction from pubKey hash */
     std::vector<uint8_t> AddressPrefix;
     /** Chain ID of the network */
@@ -34,7 +32,6 @@ struct CosmosLikeNetworkParameters final {
                                 std::string MessagePrefix_,
                                 std::vector<uint8_t> XPUBVersion_,
                                 std::vector<uint8_t> PubKeyPrefix_,
-                                std::vector<uint8_t> Ed25519PubKeyPrefix_,
                                 std::vector<uint8_t> AddressPrefix_,
                                 std::string ChainId_,
                                 std::vector<std::string> AdditionalCIPs_)
@@ -42,7 +39,6 @@ struct CosmosLikeNetworkParameters final {
     , MessagePrefix(std::move(MessagePrefix_))
     , XPUBVersion(std::move(XPUBVersion_))
     , PubKeyPrefix(std::move(PubKeyPrefix_))
-    , Ed25519PubKeyPrefix(std::move(Ed25519PubKeyPrefix_))
     , AddressPrefix(std::move(AddressPrefix_))
     , ChainId(std::move(ChainId_))
     , AdditionalCIPs(std::move(AdditionalCIPs_))
@@ -53,7 +49,6 @@ struct CosmosLikeNetworkParameters final {
        this->MessagePrefix = cpy.MessagePrefix;
        this->XPUBVersion = cpy.XPUBVersion;
        this->PubKeyPrefix = cpy.PubKeyPrefix;
-       this->Ed25519PubKeyPrefix = cpy.Ed25519PubKeyPrefix;
        this->AddressPrefix = cpy.AddressPrefix;
        this->ChainId = cpy.ChainId;
        this->AdditionalCIPs = cpy.AdditionalCIPs;
@@ -67,7 +62,6 @@ struct CosmosLikeNetworkParameters final {
        this->MessagePrefix = cpy.MessagePrefix;
        this->XPUBVersion = cpy.XPUBVersion;
        this->PubKeyPrefix = cpy.PubKeyPrefix;
-       this->Ed25519PubKeyPrefix = cpy.Ed25519PubKeyPrefix;
        this->AddressPrefix = cpy.AddressPrefix;
        this->ChainId = cpy.ChainId;
        this->AdditionalCIPs = cpy.AdditionalCIPs;
@@ -76,12 +70,12 @@ struct CosmosLikeNetworkParameters final {
 
     template <class Archive>
     void load(Archive& archive) {
-        archive(Identifier, MessagePrefix, XPUBVersion, PubKeyPrefix, Ed25519PubKeyPrefix, AddressPrefix, ChainId, AdditionalCIPs);
+        archive(Identifier, MessagePrefix, XPUBVersion, PubKeyPrefix, AddressPrefix, ChainId, AdditionalCIPs);
     }
 
     template <class Archive>
     void save(Archive& archive) const {
-        archive(Identifier, MessagePrefix, XPUBVersion, PubKeyPrefix, Ed25519PubKeyPrefix, AddressPrefix, ChainId, AdditionalCIPs);
+        archive(Identifier, MessagePrefix, XPUBVersion, PubKeyPrefix, AddressPrefix, ChainId, AdditionalCIPs);
     }
 };
 

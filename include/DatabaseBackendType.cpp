@@ -10,7 +10,6 @@ std::string to_string(const DatabaseBackendType& databaseBackendType) {
     switch (databaseBackendType) {
         case DatabaseBackendType::SQLITE3: return "SQLITE3";
         case DatabaseBackendType::POSTGRESQL: return "POSTGRESQL";
-        default: return "UNKNOWN";
     };
 };
 template <>

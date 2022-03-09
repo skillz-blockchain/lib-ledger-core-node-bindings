@@ -11,6 +11,7 @@
 #include "NJSStellarLikeAccountSignerListCallback.hpp"
 #include "NJSStellarLikeFeeStatsCallback.hpp"
 #include "NJSStellarLikeTransactionBuilderCpp.hpp"
+#include "NJSStellarLikeTransactionCpp.hpp"
 #include "NJSStringCallback.hpp"
 #include <cstdint>
 #include <memory>
@@ -50,6 +51,9 @@ private:
 
     /** Broadcast the given raw transaction to the network. */
     static NAN_METHOD(broadcastRawTransaction);
+
+    /** Broadcast the given raw transaction to the network. */
+    static NAN_METHOD(broadcastTransaction);
 
     /** Get base reserve of the network */
     static NAN_METHOD(getBaseReserve);

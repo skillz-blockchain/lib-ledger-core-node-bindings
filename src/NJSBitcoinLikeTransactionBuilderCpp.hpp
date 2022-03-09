@@ -45,15 +45,6 @@ public:
 
 private:
     /**
-     * Add the given input to the final transaction.
-     * @param transactionhash The hash of the transaction in where the UTXO can be located.
-     * @params index Index of the UTXO in the previous transaction
-     * @params sequence Sequence number to add at the end of the input serialization. This can be used for RBF transaction
-     * @return A reference on the same builder in order to chain calls.
-     */
-    static NAN_METHOD(addInput);
-
-    /**
      * Add the given output to the final transaction.
      * @return A reference on the same builder in order to chain calls.
      */
@@ -134,6 +125,13 @@ private:
 
     /** Reset the current instance to its initial state. */
     static NAN_METHOD(reset);
+
+    /**
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return A reference on the same builder in order to chain calls.
+     */
+    static NAN_METHOD(setCorrelationId);
 
     /**
      * Parsing unsigned transaction.

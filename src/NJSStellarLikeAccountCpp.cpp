@@ -101,6 +101,38 @@ NAN_METHOD(NJSStellarLikeAccount::broadcastRawTransaction) {
     cpp_impl->broadcastRawTransaction(arg_0,arg_1);
     info.GetReturnValue().Set(arg_1_resolver->GetPromise());
 }
+NAN_METHOD(NJSStellarLikeAccount::broadcastTransaction) {
+
+    //Check if method called with right number of arguments
+    if(info.Length() != 1)
+    {
+        return Nan::ThrowError("NJSStellarLikeAccount::broadcastTransaction needs 1 arguments");
+    }
+
+    //Check if parameters have correct types
+    Local<Object> njs_arg_0 = info[0]->ToObject(Nan::GetCurrentContext()).ToLocalChecked();
+    auto arg_0 = djinni::js::ObjectWrapper<ledger::core::api::StellarLikeTransaction>::Unwrap(njs_arg_0);
+    if(!arg_0)
+    {
+        return Nan::ThrowError("NodeJs Object to NJSStellarLikeTransaction failed");
+    }
+
+
+    //Create promise and set it into Callback
+    auto arg_1_resolver = v8::Promise::Resolver::New(Nan::GetCurrentContext()).ToLocalChecked();
+    NJSStringCallback *njs_ptr_arg_1 = new NJSStringCallback(arg_1_resolver);
+    std::shared_ptr<NJSStringCallback> arg_1(njs_ptr_arg_1);
+
+
+    //Unwrap current object and retrieve its Cpp Implementation
+    auto cpp_impl = djinni::js::ObjectWrapper<ledger::core::api::StellarLikeAccount>::Unwrap(info.This());
+    if(!cpp_impl)
+    {
+        return Nan::ThrowError("NJSStellarLikeAccount::broadcastTransaction : implementation of StellarLikeAccount is not valid");
+    }
+    cpp_impl->broadcastTransaction(arg_0,arg_1);
+    info.GetReturnValue().Set(arg_1_resolver->GetPromise());
+}
 NAN_METHOD(NJSStellarLikeAccount::getBaseReserve) {
 
     //Check if method called with right number of arguments
@@ -250,6 +282,7 @@ void NJSStellarLikeAccount::Initialize(Local<Object> target) {
     Nan::SetPrototypeMethod(func_template,"exists", exists);
     Nan::SetPrototypeMethod(func_template,"buildTransaction", buildTransaction);
     Nan::SetPrototypeMethod(func_template,"broadcastRawTransaction", broadcastRawTransaction);
+    Nan::SetPrototypeMethod(func_template,"broadcastTransaction", broadcastTransaction);
     Nan::SetPrototypeMethod(func_template,"getBaseReserve", getBaseReserve);
     Nan::SetPrototypeMethod(func_template,"getSequence", getSequence);
     Nan::SetPrototypeMethod(func_template,"getFeeStats", getFeeStats);

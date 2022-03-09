@@ -71,6 +71,9 @@ private:
     /** Set input data the originator wants to embed in transaction. */
     static NAN_METHOD(setInputData);
 
+    /** Set the correlation id which allows to track transaction */
+    static NAN_METHOD(setCorrelationId);
+
     /** Build a transaction from the given builder parameters. */
     static NAN_METHOD(build);
 

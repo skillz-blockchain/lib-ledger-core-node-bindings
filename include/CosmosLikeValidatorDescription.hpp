@@ -16,18 +16,15 @@ struct CosmosLikeValidatorDescription final {
     std::string moniker;
     std::experimental::optional<std::string> identity;
     std::experimental::optional<std::string> website;
-    std::experimental::optional<std::string> securityContact;
     std::experimental::optional<std::string> details;
 
     CosmosLikeValidatorDescription(std::string moniker_,
                                    std::experimental::optional<std::string> identity_,
                                    std::experimental::optional<std::string> website_,
-                                   std::experimental::optional<std::string> securityContact_,
                                    std::experimental::optional<std::string> details_)
     : moniker(std::move(moniker_))
     , identity(std::move(identity_))
     , website(std::move(website_))
-    , securityContact(std::move(securityContact_))
     , details(std::move(details_))
     {}
 
@@ -35,7 +32,6 @@ struct CosmosLikeValidatorDescription final {
        this->moniker = cpy.moniker;
        this->identity = cpy.identity;
        this->website = cpy.website;
-       this->securityContact = cpy.securityContact;
        this->details = cpy.details;
     }
 
@@ -46,19 +42,18 @@ struct CosmosLikeValidatorDescription final {
        this->moniker = cpy.moniker;
        this->identity = cpy.identity;
        this->website = cpy.website;
-       this->securityContact = cpy.securityContact;
        this->details = cpy.details;
        return *this;
     }
 
     template <class Archive>
     void load(Archive& archive) {
-        archive(moniker, identity, website, securityContact, details);
+        archive(moniker, identity, website, details);
     }
 
     template <class Archive>
     void save(Archive& archive) const {
-        archive(moniker, identity, website, securityContact, details);
+        archive(moniker, identity, website, details);
     }
 };
 

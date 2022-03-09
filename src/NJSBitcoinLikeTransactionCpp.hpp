@@ -86,15 +86,25 @@ private:
     /** Get the dust amount based on the maximum estimated size of the transaction */
     static NAN_METHOD(getDustAmount);
 
+    /** Get the id used to track a transaction */
+    static NAN_METHOD(getCorrelationId);
+
     /**
-     * Sign all inputs for given transaction. 
+     * Set the correlation id which can be used to debug transaction errors
+     * through the full ledger stack
+     * @return the OLD Correlation ID, if it was set (empty string if it was unset)
+     */
+    static NAN_METHOD(setCorrelationId);
+
+    /**
+     * Sign all inputs for given transaction.
      * Build DER encoded signature from RSV data.
      * @return SIGNING_SUCCEED if succeed case else refers to BitcoinLikeSignatureState enumeration
      */
     static NAN_METHOD(setSignatures);
 
     /**
-     * Sign all inputs for given transaction. 
+     * Sign all inputs for given transaction.
      * @return SIGNING_SUCCEED if succeed case else refers to BitcoinLikeSignatureState enumeration
      */
     static NAN_METHOD(setDERSignatures);
